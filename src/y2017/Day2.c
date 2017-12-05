@@ -1,5 +1,9 @@
 #include <SPI.h>
 #include <U8x8lib.h>
+#include <cstdlib>
+#include <vector>
+
+#define BUILTIN_LED 25
 
 U8X8_SSD1306_128X64_NONAME_SW_I2C oled(15, 4, 16);
 
@@ -23,31 +27,49 @@ String data[] = {
   };
   
 void setup() {
+  Serial.begin(115200);
+  
   oled.begin();
   oled.setFont(u8x8_font_chroma48medium8_r);
   oled.drawString(0, 1, "Day 2:");
   oled.drawString(0, 2, "    Corruption");
   oled.drawString(0, 3, "     Checksum");
 
-  int total = 0;
+  int checksum[2] = {};
   for(int i = 0; i < sizeof(data) / sizeof(*data); i++) {
     int low = INT_MAX;
     int high = INT_MIN;
     char* line = const_cast<char *>(data[i].c_str());
     char* ptr = NULL;
+    std::vector<int> numbers;
     while ((ptr = strtok_r(line, " ", &line)) != NULL) {
       String elem(ptr);
       elem.trim();
-      long num = elem.toInt();
+      int num = static_cast<int>(elem.toInt());
       if(num < low) low = num;
-      if(num > high) high = num; 
+      if(num > high) high = num;
+
+      for(std::vector<int>::iterator it = numbers.begin() ; it != numbers.end(); ++it) {
+        std::div_t dv = std::div(std::max(num, *it), std::min(num, *it));
+        if(dv.rem == 0) {
+          Serial.printf("Numbers %d and %d are divisible\n", num, *it);
+          checksum[1] += dv.quot;
+        }
+      }
+
+      
+      numbers.push_back(static_cast<int>(num));
     }
-    total += (high - low);
+    checksum[0] += (high - low);
   }
   char result[64] = {};
-  snprintf(result, sizeof(result), "%d", total);
-  oled.drawString(0, 5, "Checksum:");
-  oled.drawString(2, 6, result);
+  snprintf(result, sizeof(result), "Sum 1: %d", checksum[0]);
+  oled.drawString(0, 5, result);
+  snprintf(result, sizeof(result), "Sum 2: %d", checksum[1]);
+  oled.drawString(0, 6, result);
+
+  Serial.printf("Checksum 1: %d\n", checksum[0]);
+  Serial.printf("Checksum 2: %d\n", checksum[1]);
 }
 
 void loop() {
