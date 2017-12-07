@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import y2017.Day1;
 import y2017.Day4;
+import y2017.Day5;
 
 
 /**
@@ -49,7 +50,7 @@ public class AdventOfCode {
         //days.add(new Day22());
         
         days.add(new Day1());
-        days.add(new Day4());
+        days.add(new Day5());
 
         for (TaskSolver day : days) {
             day.run();
