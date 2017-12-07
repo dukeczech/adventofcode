@@ -52,7 +52,7 @@ public class Day4 extends TaskSolver {
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] words = line.split("\\s+");
-            if (words.length == Arrays.stream(words).map(w -> new WorldWrapper(w)).distinct().count()) {
+            if (words.length == Arrays.stream(words).map(w -> new WordWrapper(w)).distinct().count()) {
                 valid++;
             }
         }
@@ -67,28 +67,28 @@ public class Day4 extends TaskSolver {
         part2();
     }
 
-    class WorldWrapper {
+    class WordWrapper {
 
-        String world = null;
+        String word = null;
 
-        public WorldWrapper(String w) {
-            world = w;
+        public WordWrapper(String w) {
+            word = w;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (!(obj instanceof WorldWrapper)) {
+            if (!(obj instanceof WordWrapper)) {
                 return false;
             }
-            WorldWrapper other = (WorldWrapper) obj;
-            if (Objects.equals(world, other.world)) {
+            WordWrapper other = (WordWrapper) obj;
+            if (Objects.equals(word, other.word)) {
                 return true;
             }
-            if (world.length() != other.world.length()) {
+            if (word.length() != other.word.length()) {
                 return false;
             }
-            int[] o1 = world.chars().sorted().toArray();
-            int[] o2 = other.world.chars().sorted().toArray();
+            int[] o1 = word.chars().sorted().toArray();
+            int[] o2 = other.word.chars().sorted().toArray();
             if (Arrays.equals(o1, o2)) {
                 return true;
             }
