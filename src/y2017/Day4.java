@@ -43,7 +43,7 @@ public class Day4 extends TaskSolver {
         }
         sc.close();
 
-        System.out.println("Valid passphrases: " + valid);
+        System.out.println("[1] Valid passphrases: " + valid);
     }
 
     private void part2() {
@@ -58,7 +58,7 @@ public class Day4 extends TaskSolver {
         }
         sc.close();
 
-        System.out.println("Valid passphrases: " + valid);
+        System.out.println("[2] Valid passphrases: " + valid);
     }
 
     @Override

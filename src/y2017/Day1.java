@@ -29,7 +29,7 @@ public class Day1 extends TaskSolver {
                 count += ch1 - '0';
             }
         }
-        System.out.println("Solution to your captcha: " + count);
+        System.out.println("[1] Solution to your captcha: " + count);
     }
 
     private void part2() {
@@ -42,7 +42,7 @@ public class Day1 extends TaskSolver {
                 count += 2 * (ch1 - '0');
             }
         }
-        System.out.println("Solution to your captcha: " + count);
+        System.out.println("[2] Solution to your captcha: " + count);
     }
 
     @Override

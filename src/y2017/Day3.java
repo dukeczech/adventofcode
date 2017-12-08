@@ -47,7 +47,7 @@ public class Day3 extends TaskSolver {
                 }
             }
         }
-        System.out.println("Part 1 result: " + (Math.abs(n / 2 - x0) + Math.abs(n / 2 - y0)));
+        System.out.println("[1] Result: " + (Math.abs(n / 2 - x0) + Math.abs(n / 2 - y0)));
     }
 
     int walkSpiral(int[][] grid, int dim, int limit) {
@@ -124,7 +124,7 @@ public class Day3 extends TaskSolver {
     private void part2() {
         int dim = 50;
         int[][] grid = new int[dim][dim];
-        System.out.println("Part 2 result: " + walkSpiral(grid, dim, 325489));
+        System.out.println("[2] Result: " + walkSpiral(grid, dim, 325489));
     }
 
     @Override

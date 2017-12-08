@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -53,7 +52,7 @@ public class Day5 extends TaskSolver {
                 break;
             }
         }
-        System.out.println("Steps to reach the exit: " + steps);
+        System.out.println("[1] Steps to reach the exit: " + steps);
     }
 
     private void part2() {
@@ -81,7 +80,7 @@ public class Day5 extends TaskSolver {
                 break;
             }
         }
-        System.out.println("Steps to reach the exit: " + steps);
+        System.out.println("[2] Steps to reach the exit: " + steps);
     }
 
     @Override
