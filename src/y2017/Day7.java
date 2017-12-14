@@ -12,12 +12,14 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -66,12 +68,6 @@ public class Day7 extends TaskSolver {
                 }
             }
         }
-
-        Iterator it = tree.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-        }
     }
 
     private void part1() {
@@ -83,11 +79,53 @@ public class Day7 extends TaskSolver {
         }
     }
 
+    private void check(Node nd) {
+        Map<String, Node> childs = nd.getChildren();
+        for (Map.Entry p0 : childs.entrySet()) {
+            Node subchilds = (Node) p0.getValue();
+
+            Map<Integer, Integer> counts = new HashMap<>();
+            for (Map.Entry p1 : subchilds.getChildren().entrySet()) {
+                Node ch = (Node) p1.getValue();
+                counts.put(ch.getBalance(), counts.getOrDefault(ch.getBalance(), 0) + 1);
+            }
+
+            if (counts.size() == 2) {
+                int uniqWeight = 0;
+                int multipleWeight = 0;
+                for (Map.Entry p2 : counts.entrySet()) {
+                    if ((Integer) p2.getValue() == 1) {
+                        // One unique node
+                        uniqWeight = (int) p2.getKey();
+                    } else {
+                        multipleWeight = (int) p2.getKey();
+                    }
+                }
+
+                for (Map.Entry p3 : subchilds.getChildren().entrySet()) {
+                    Node ch = (Node) p3.getValue();
+                    if (ch.getBalance() == uniqWeight) {
+                        int result = ch.getWeight() + multipleWeight - uniqWeight;
+                        System.out.println("[2] Weight needs to be: " + result);
+                    }
+                }
+            }
+        }
+    }
+
     private void part2() {
+        Node root = null;
         for (Map.Entry pair : tree.entrySet()) {
             Node n = (Node) pair.getValue();
             if (n.isRoot()) {
-                System.out.println("Top balance: " + n.isBalanced());
+                root = n;
+            }
+        }
+        if (root != null) {
+            Map<String, Node> childs = root.getChildren();
+            for (Map.Entry p0 : childs.entrySet()) {
+                Node subchild = (Node) p0.getValue();
+                check(subchild);
             }
         }
     }
@@ -172,49 +210,12 @@ public class Day7 extends TaskSolver {
                 return weight;
             }
 
-            int balance = -1;
+            int balance = weight;
             for (Map.Entry pair : this.children.entrySet()) {
                 Node ch = (Node) pair.getValue();
-                System.out.println("Balance: " + ch.getBalance());
-                if (balance < 0) {
-                    balance = ch.getBalance();
-                } else if (balance != ch.getBalance()) {
-                    return -1;
-                }
+                balance += ch.getBalance();
             }
-            return this.children.size() * balance;
-        }
-
-        public boolean isBalanced() {
-            if (isLeaf()) {
-                return true;
-            }
-
-            Map<Integer, Integer> values = new HashMap<>();
-            for (Map.Entry pair : this.children.entrySet()) {
-                Node ch = (Node) pair.getValue();
-                int balance = ch.getBalance();
-                values.put(balance, values.getOrDefault(balance, 0) + 1);
-            }
-
-            if (values.size() == 2) {
-                // Two different balances
-                for (Map.Entry pair : values.entrySet()) {
-                    if ((Integer) pair.getValue() == 1) {
-                        System.out.println("Wrong balance: " + pair.getKey());
-                    }
-                }
-                Iterator<Entry<Integer, Integer>> it = values.entrySet().iterator();
-                int diff = it.next().getKey() - it.next().getKey();
-
-                /*for (Map.Entry pair : values.entrySet()) {
-                    System.out.println(pair.getKey() + " " + pair.getValue());
-                    
-                }*/
-                System.out.println("Diff is " + diff);
-            }
-
-            return true;
+            return balance;
         }
 
         public void removeParent() {
