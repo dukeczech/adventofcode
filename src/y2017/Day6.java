@@ -27,7 +27,7 @@ public class Day6 extends TaskSolver {
         try {
             input = new String(Files.readAllBytes(Paths.get("input/day6-2017.txt")));
         } catch (IOException ex) {
-            Logger.getLogger(Day5.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Day6.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
