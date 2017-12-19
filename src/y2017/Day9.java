@@ -86,13 +86,4 @@ public class Day9 extends TaskSolver {
         part1();
         part2();
     }
-
-    class Group {
-
-        private int score = 0;
-
-        public Group() {
-        }
-
-    }
 }
