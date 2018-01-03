@@ -32,7 +32,7 @@ public class Day13 extends TaskSolver {
         try {
             input = new String(Files.readAllBytes(Paths.get("input/day13-2017.txt")));
         } catch (IOException ex) {
-            Logger.getLogger(Day12.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Day13.class.getName()).log(Level.SEVERE, null, ex);
         }
         layers = new ArrayList<>();
 
