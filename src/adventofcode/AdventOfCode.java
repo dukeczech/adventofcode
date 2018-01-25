@@ -39,8 +39,9 @@ public class AdventOfCode {
         days.add(new Day14());
         days.add(new Day15());
         days.add(new Day16());
-        days.add(new Day17());*/
-        days.add(new Day18());
+        days.add(new Day17());
+        days.add(new Day18());*/
+        days.add(new Day19());
 
         for (TaskSolver day : days) {
             day.run();
