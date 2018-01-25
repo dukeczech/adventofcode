@@ -53,6 +53,7 @@ public class Day19 extends TaskSolver {
             switch ((char) map[y][x]) {
                 case '|':
                 case '-':
+                    // Direction will continue
                     switch (last) {
                         case UP:
                             y--;
@@ -61,11 +62,9 @@ public class Day19 extends TaskSolver {
                             y++;
                             break;
                         case LEFT:
-                            // Crossroads, direction will continue
                             x--;
                             break;
                         case RIGHT:
-                            // Crossroads, direction will continue
                             x++;
                             break;
                     }
