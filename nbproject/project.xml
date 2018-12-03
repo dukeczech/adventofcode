@@ -6,6 +6,7 @@
             <name>AdventOfCode</name>
             <source-roots>
                 <root id="src.dir"/>
+                <root id="src.input.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>

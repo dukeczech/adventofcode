@@ -5,10 +5,9 @@
  */
 package adventofcode;
 
-import y2017.Day16;
 import java.util.ArrayList;
 import java.util.List;
-import y2017.*;
+import y2018.*;
 
 /**
  *
@@ -24,8 +23,8 @@ public class AdventOfCode {
 
         List<TaskSolver> days = new ArrayList<>();
 
-        /*days.add(new Day1());
-        days.add(new Day3());
+        days.add(new Day1());
+        /*days.add(new Day3());
         days.add(new Day4());
         days.add(new Day5());
         days.add(new Day6());
@@ -41,8 +40,8 @@ public class AdventOfCode {
         days.add(new Day16());
         days.add(new Day17());
         days.add(new Day18());
-        days.add(new Day19());*/
-        days.add(new Day20());
+        days.add(new Day19());
+        days.add(new Day20());*/
 
         for (TaskSolver day : days) {
             day.run();
