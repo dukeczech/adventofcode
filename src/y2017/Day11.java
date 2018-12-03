@@ -6,6 +6,7 @@
 package y2017;
 
 import adventofcode.TaskSolver;
+import adventofcode.Point3D;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -76,33 +77,4 @@ public class Day11 extends TaskSolver {
         part1();
         part2();
     }
-
-    class Point3D {
-
-        private int x = 0;
-        private int y = 0;
-        private int z = 0;
-
-        public Point3D(int xx, int yy, int zz) {
-            x = xx;
-            y = yy;
-            z = zz;
-        }
-
-        public void add(int dx, int dy, int dz) {
-            x += dx;
-            y += dy;
-            z += dz;
-        }
-
-        public int distance(Point3D other) {
-            return (Math.abs(x - other.x) + Math.abs(y - other.y) + Math.abs(z - other.z)) / 2;
-        }
-
-        @Override
-        public String toString() {
-            return "[ " + x + ", " + y + ", " + z + " ]";
-        }
-    }
-
 }
