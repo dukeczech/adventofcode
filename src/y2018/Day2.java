@@ -53,13 +53,8 @@ public class Day2 extends TaskSolver {
     private void part2() {
         StringBuilder sb = new StringBuilder();
         Stream.of(input.split("\n")).forEach(s1 -> {
-            Optional<String> common = Stream.of(input.split("\n")).filter(s2 -> {
-                if (!s1.equals(s2) && LevenshteinDistance.computeLevenshteinDistance(s1, s2) == 1 && sb.length() == 0) {
-                    return true;
-                };
-                return false;
-            }).findFirst();
-            if (common.isPresent()) {
+            Optional<String> common = Stream.of(input.split("\n")).filter(s2 -> !s1.equals(s2) && LevenshteinDistance.computeLevenshteinDistance(s1, s2) == 1).findFirst();
+            if (common.isPresent() && sb.length() == 0) {
                 sb.append(LevenshteinDistance.getCommonLetters(s1, common.get()));
             }
         });
