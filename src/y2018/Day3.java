@@ -105,16 +105,14 @@ public class Day3 extends TaskSolver {
         }
 
         public boolean overlap(int[][] fabric) {
-            boolean overlap = true;
             for (int y = location.y; y < location.y + height; y++) {
                 for (int x = location.x; x < location.x + width; x++) {
                     if (fabric[y][x] != id) {
-                        overlap = false;
-                        break;
+                        return false;
                     }
                 }
             }
-            return overlap;
+            return true;
         }
     }
 }
