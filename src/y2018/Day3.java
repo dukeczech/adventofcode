@@ -61,6 +61,7 @@ public class Day3 extends TaskSolver {
 
     private void part2() {
         Claim single = claims.stream().filter(cl -> cl.overlap(fabric)).findAny().get();
+        
         System.out.println("[2] ID of the only claim that doesn't overlap: " + single.id);
     }
 
