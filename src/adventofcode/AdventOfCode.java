@@ -28,9 +28,9 @@ public class AdventOfCode {
         //days.add(new Day3());
         //days.add(new Day4());
         //days.add(new Day5());
-        days.add(new Day6());
-        /*days.add(new Day7());
-        days.add(new Day8());
+        //days.add(new Day6());
+        days.add(new Day7());
+        /*days.add(new Day8());
         days.add(new Day9());
         days.add(new Day10());
         days.add(new Day11());
