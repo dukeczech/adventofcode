@@ -8,8 +8,6 @@ package y2018;
 import adventofcode.TaskSolver;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,21 +64,19 @@ public class Day10 extends TaskSolver {
         int lastwidth = Integer.MAX_VALUE;
         int lastheight = Integer.MAX_VALUE;
         for (int i = 0; i < 1000000; i++) {
-            points.stream().forEach(p -> {
-                p.move();
-            });
+            points.stream().forEach(p -> p.move());
 
             int width = getAreaWidth();
             int height = getAreaHeigth();
 
             if (lastheight < height || lastwidth < width) {
 
-                ITesseract instance = new Tesseract();
-                instance.setLanguage("eng");
+                ITesseract ocr = new Tesseract();
+                ocr.setLanguage("eng");
 
                 try {
-                    String result = instance.doOCR(image);
-                    System.out.println("[1] Message will eventually appear in the sky: " + result);
+                    String message = ocr.doOCR(image);
+                    System.out.println("[1] Message will eventually appear in the sky: " + message);
                     System.out.println("[2] How many seconds would they have needed to wait for that message to appear: " + i);
                 } catch (TesseractException ex) {
                     Logger.getLogger(Day10.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,34 +97,19 @@ public class Day10 extends TaskSolver {
 
             if (display) {
                 gr.resetAll();
-                points.stream().forEach(p -> {
-                    p.place(gr);
-                });
+                points.stream().forEach(p -> p.place(gr));
 
-                BufferedImage before = new BufferedImage(gr.grid[0].length, gr.grid.length, BufferedImage.TYPE_BYTE_GRAY);
+                image = new BufferedImage(gr.grid[0].length, gr.grid.length, BufferedImage.TYPE_BYTE_GRAY);
                 for (int y = 0; y < gr.grid.length; y++) {
                     for (int x = 0; x < gr.grid[0].length; x++) {
                         if (gr.grid[y][x]) {
-                            before.setRGB(x, y, new Color(255, 255, 255).getRGB());
+                            image.setRGB(x, y, new Color(255, 255, 255).getRGB());
                         } else {
-                            before.setRGB(x, y, new Color(0, 0, 0).getRGB());
+                            image.setRGB(x, y, new Color(0, 0, 0).getRGB());
                         }
                     }
                 }
-
-                AffineTransform at = new AffineTransform();
-                at.scale(1.0, 1.0);
-                AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-                image = new BufferedImage(before.getWidth(), before.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
-                image = scaleOp.filter(before, image);
                 df.updateImage(image);
-
-                try {
-                    Thread.sleep(60);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Day10.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
             }
         }
     }
