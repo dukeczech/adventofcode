@@ -90,7 +90,7 @@ public class Day11 extends TaskSolver {
             }
         }
 
-        System.out.println("[1] What is the X,Y,size identifier of the square with the largest total power: " + loc.x + "," + loc.y + "," + size);
+        System.out.println("[2] What is the X,Y,size identifier of the square with the largest total power: " + loc.x + "," + loc.y + "," + size);
     }
 
     @Override
