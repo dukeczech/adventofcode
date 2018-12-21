@@ -10,10 +10,8 @@ import java.awt.Point;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -66,72 +64,32 @@ public class Day13 extends TaskSolver {
         }
     }
 
-    private List<Cart> getCarts(int x, int y) {
-        return carts.stream().filter(c -> (c.location.x == x && c.location.y == y)).collect(Collectors.toList());
-    }
-
-    private Point getCrash() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (getCarts(j, i).size() > 1) {
-                    return new Point(j, i);
-                }
-            }
-        }
-        return null;
-    }
-
-    private void print() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                List<Cart> c = getCarts(j, i);
-                if (c.isEmpty()) {
-                    System.out.print(map[i][j]);
-                } else if (c.size() == 1) {
-                    System.out.print(c.get(0));
-                } else {
-                    System.out.print("X");
-                }
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-    }
-
     private void part1() {
         boolean first = false;
         for (int i = 0; i < 100000; i++) {
             Collections.sort(carts);
 
-            Iterator<Cart> it = carts.iterator();
-            ArrayList<Cart> copy = new ArrayList<>(carts);
-            for (Cart cart : carts) {
-                cart.step(map);
-                if (carts.contains(cart)) {
-                    copy.removeIf(c -> c.equals(cart));
+            for (Cart c1 : carts) {
+                if (!c1.dead) {
+                    c1.step(map);
+                    for (Cart c2 : carts) {
+                        if (!c2.dead && c2 != c1 && c2.location.x == c1.location.x && c2.location.y == c1.location.y) {
+                            c1.dead = c2.dead = true;
+                            if (!first) {
+                                System.out.println("[1] Location of the first crash is: [" + c1.location.x + "," + c1.location.y + "]");
+                                first = true;
+                            }
+                        }
+                    }
                 }
             }
-            carts = new ArrayList<>(copy);
-            print();
+
+            List<Cart> remaining = carts.stream().filter(c -> !c.dead).collect(Collectors.toList());
+            if (remaining.size() == 1) {
+                System.out.println("[2] Location of the last cart is: [" + remaining.get(0).location.x + "," + remaining.get(0).location.y + "]");
+                break;
+            }
         }
-
-        /*Point crash = getCrash();
-            while (crash != null) {
-                if (!first) {
-                    System.out.println("[1] Location of the first crash is: [" + crash.x + "," + crash.y + "]");
-                    first = true;
-                }
-                // Remove crashed carts
-                carts.removeAll(getCarts(crash.x, crash.y));
-
-                System.out.println("Cart size: " + carts.size());
-                if (carts.size() == 1) {
-                    System.out.println("[2] Location of the last cart is: [" + carts.get(0).location.x + "," + carts.get(0).location.y + "]");
-                    break;
-                }
-
-                crash = getCrash();
-            }*/
     }
 
     private void part2() {
@@ -181,6 +139,7 @@ public class Day13 extends TaskSolver {
 
     class Cart implements Comparable<Cart> {
 
+        public boolean dead = false;
         public Point location = new Point();
         public Direction direction = Direction.DOWN;
         public Turn last = Turn.RIGHT;
@@ -261,16 +220,15 @@ public class Day13 extends TaskSolver {
 
         @Override
         public String toString() {
-            String l = ""; //[" + location.x + "," + location.y + "] ";
             switch (direction) {
                 case DOWN:
-                    return l + "v";
+                    return "v";
                 case RIGHT:
-                    return l + ">";
+                    return ">";
                 case UP:
-                    return l + "^";
+                    return "^";
                 case LEFT:
-                    return l + "<";
+                    return "<";
             }
             return null;
         }
@@ -309,10 +267,7 @@ public class Day13 extends TaskSolver {
                 return false;
             }
             final Cart other = (Cart) obj;
-            if (!Objects.equals(this.location, other.location)) {
-                return false;
-            }
-            return true;
+            return !(this.location.x != other.location.x || this.location.y != other.location.y);
         }
 
     }
